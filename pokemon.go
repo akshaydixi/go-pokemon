@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-//  "io/ioutil"
-//  "strconv"
 )
 
 const (
@@ -13,13 +11,13 @@ const (
 )
 
 type Game struct {
-  Name string `json:"name"`
-  Id int `json:"id"`
-  Resource_uri string `json:"resource_uri"`
-  Created string `json:"created"`
-  Modified string `json:"modified"`
-  Release_year int `json:"release"year"`
-  Generation int `json:"generation"`
+	Name         string `json:"name"`
+	Id           int    `json:"id"`
+	Resource_uri string `json:"resource_uri"`
+	Created      string `json:"created"`
+	Modified     string `json:"modified"`
+	Release_year int    `json:"release"year"`
+	Generation   int    `json:"generation"`
 }
 
 type Ability struct {
@@ -91,53 +89,58 @@ type Pokemon struct {
 	Pkdx_id           int           `json:"pkdx_id"`
 	Sprites           []Sprite      `json:"sprites"`
 	Total             int           `json:"total"`
-	Weight            string           `json:"weight"`
+	Weight            string        `json:"weight"`
 }
 
 type Pokedex struct {
-	Name         string `json:"name"`
-	Resource_uri string `json:"resource_uri"`
-	Created      string `json:"created"`
-	Modified     string `json:"modified"`
+	Name         string    `json:"name"`
+	Resource_uri string    `json:"resource_uri"`
+	Created      string    `json:"created"`
+	Modified     string    `json:"modified"`
 	Pokemon      []Pokemon `json:"pokemon"`
 }
 
 func main() {
-  _, err := getPokemon("bulbasaur")
-  if err != nil {
-    fmt.Println(err)
-  }
+	_, err := getPokedex("1")
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
-
-func getPokemon(identifier string) (Pokemon, error) {
-  url := endpoint + "/pokemon/" + identifier
-  res, err := http.Get(url)
-  if err != nil {
-    return Pokemon{}, err
-  }
-  defer res.Body.Close()
-  decoder := json.NewDecoder(res.Body)
-  var pokemon Pokemon
-  if err := decoder.Decode(&pokemon); err != nil {
-    return Pokemon{}, err
-  }
-  fmt.Println(pokemon.Name, pokemon.Species)
-  return pokemon, nil
+// This function gets the JSON from the API and populates the value field
+// which is passed by reference to it
+func endpointRequest(url string, value interface{}) error {
+	res, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+	decoder := json.NewDecoder(res.Body)
+	return decoder.Decode(&value)
 }
 
-func getGame(identifier string) (Game, error) {
-  url := endpoint + "/game/" + identifier
-  res, err := http.Get(url)
-  if err != nil {
-    return Game{}, err
-  }
-  defer res.Body.Close()
-  decoder := json.NewDecoder(res.Body)
-  var game Game
-  if err := decoder.Decode(&game); err != nil {
-    return Game{}, err
-  }
-  fmt.Println(game.Name,":",game.Generation)
-  return game, nil
+func getPokedex(identifier string) (pokedex Pokedex, err error) {
+	url := endpoint + "/pokedex/" + identifier
+	if err = endpointRequest(url, &pokedex); err != nil {
+		return Pokedex{}, err
+	}
+	fmt.Println(pokedex.Name, pokedex.Resource_uri)
+	return pokedex, nil
+}
+func getPokemon(identifier string) (pokemon Pokemon, err error) {
+	url := endpoint + "/pokemon/" + identifier
+	if err = endpointRequest(url, &pokemon); err != nil {
+		return Pokemon{}, err
+	}
+	fmt.Println(pokemon.Name, pokemon.Species)
+	return pokemon, nil
+}
+
+func getGame(identifier string) (game Game, err error) {
+	url := endpoint + "/game/" + identifier
+	if err = endpointRequest(url, &game); err != nil {
+		return Game{}, err
+	}
+	fmt.Println(game.Name, ":", game.Generation)
+	return game, nil
 }
