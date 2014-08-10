@@ -1,3 +1,5 @@
+// Package pokemon provides structs and functions for acccessing
+// http://pokeapi.co
 package pokemon
 
 import (
@@ -150,6 +152,9 @@ func endpointRequest(url string, value interface{}) error {
 	return decoder.Decode(&value)
 }
 
+// Returns a Pokedex object according to the input identifier. If an error
+// occurs, returns an empty Pokedex object and a corresponding error object
+// This is a special call and will only work for the identifier "1"
 func GetPokedex(identifier string) (pokedex Pokedex, err error) {
 	url := endpoint + "/pokedex/" + identifier
 	if err = endpointRequest(url, &pokedex); err != nil {
@@ -157,6 +162,10 @@ func GetPokedex(identifier string) (pokedex Pokedex, err error) {
 	}
 	return pokedex, nil
 }
+
+// Returns a Pokemon object according to the input identifier. If an error
+// occurs, returns an empty Pokemon object and a corresponding error object
+// The identifier can be either the Pokemon ID or Name
 func GetPokemon(identifier string) (pokemon Pokemon, err error) {
 	url := endpoint + "/pokemon/" + identifier
 	if err = endpointRequest(url, &pokemon); err != nil {
@@ -165,6 +174,8 @@ func GetPokemon(identifier string) (pokemon Pokemon, err error) {
 	return pokemon, nil
 }
 
+// Returns a Game object according to the input identifier. If an error
+// occurs, returns an empty Game object and a corresponding error object
 func GetGame(identifier string) (game Game, err error) {
 	url := endpoint + "/game/" + identifier
 	if err = endpointRequest(url, &game); err != nil {
@@ -173,6 +184,8 @@ func GetGame(identifier string) (game Game, err error) {
 	return game, nil
 }
 
+// Returns a Type object according to the input identifier. If an error
+// occurs, returns an empty Type object and a corresponding error object
 func GetType(identifier string) (type_ Type, err error) {
 	url := endpoint + "/type/" + identifier
 	if err = endpointRequest(url, &type_); err != nil {
@@ -181,6 +194,8 @@ func GetType(identifier string) (type_ Type, err error) {
 	return type_, nil
 }
 
+// Returns a Move object according to the input identifier. If an error
+// occurs, returns an empty Move object and a corresponding error object
 func GetMove(identifier string) (move Move, err error) {
 	url := endpoint + "/move/" + identifier
 	if err = endpointRequest(url, &move); err != nil {
@@ -189,6 +204,8 @@ func GetMove(identifier string) (move Move, err error) {
 	return move, nil
 }
 
+// Returns an Ability object according to the input identifier. If an error
+// occurs, returns an empty Ability object and a corresponding error object
 func GetAbility(identifier string) (ability Ability, err error) {
 	url := endpoint + "/ability/" + identifier
 	if err = endpointRequest(url, &ability); err != nil {
@@ -197,6 +214,8 @@ func GetAbility(identifier string) (ability Ability, err error) {
 	return ability, nil
 }
 
+// Returns an EggGroup object according to the input identifier. If an error
+// occurs, returns an empty EggGroup object and a corresponding error object
 func GetEggGroup(identifier string) (eggGroup EggGroup, err error) {
 	url := endpoint + "/egg/" + identifier
 	if err = endpointRequest(url, &eggGroup); err != nil {
@@ -205,6 +224,8 @@ func GetEggGroup(identifier string) (eggGroup EggGroup, err error) {
 	return eggGroup, nil
 }
 
+// Returns a Description object according to the input identifier. If an error
+// occurs, returns an empty Description object and a corresponding error object
 func GetDescription(identifier string) (description Description, err error) {
 	url := endpoint + "/description/" + identifier
 	if err = endpointRequest(url, &description); err != nil {
@@ -213,6 +234,8 @@ func GetDescription(identifier string) (description Description, err error) {
 	return description, nil
 }
 
+// Returns a Sprite object according to the input identifier. If an error
+// occurs, returns an empty Sprite object and a corresponding error object
 func GetSprite(identifier string) (sprite Sprite, err error) {
 	url := endpoint + "/sprite/" + identifier
 	if err = endpointRequest(url, &sprite); err != nil {
