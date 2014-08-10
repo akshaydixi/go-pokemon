@@ -5,7 +5,7 @@ import (
 )
 
 func Test_GamePokemonRed(t *testing.T) {
-	game, err := getGame("4")
+	game, err := GetGame("4")
 	if err != nil {
 		t.Error("Error: ", err)
 	} else {
@@ -14,7 +14,7 @@ func Test_GamePokemonRed(t *testing.T) {
 }
 
 func Test_GameError(t *testing.T) {
-	game, err := getGame("1231")
+	game, err := GetGame("1231")
 	if err != nil {
 		t.Log("Passed: ", err)
 	} else {
@@ -23,7 +23,7 @@ func Test_GameError(t *testing.T) {
 }
 
 func Test_PokemonCharizardByName(t *testing.T) {
-	pokemon, err := getPokemon("charizard")
+	pokemon, err := GetPokemon("charizard")
 	if err != nil {
 		t.Error("Error: ", err)
 	} else if pokemon.Name != "Charizard" {
@@ -34,7 +34,7 @@ func Test_PokemonCharizardByName(t *testing.T) {
 }
 
 func Test_PokemonCharizardById(t *testing.T) {
-	pokemon, err := getPokemon("6")
+	pokemon, err := GetPokemon("6")
 	if err != nil {
 		t.Error("Error: ", err)
 	} else if pokemon.Name != "Charizard" {
@@ -45,7 +45,7 @@ func Test_PokemonCharizardById(t *testing.T) {
 }
 
 func Test_PokedexCallSuccess(t *testing.T) {
-	pokedex, err := getPokedex("1")
+	pokedex, err := GetPokedex("1")
 	if err != nil {
 		t.Error("Error: ", err)
 	} else {

@@ -150,14 +150,14 @@ func endpointRequest(url string, value interface{}) error {
 	return decoder.Decode(&value)
 }
 
-func getPokedex(identifier string) (pokedex Pokedex, err error) {
+func GetPokedex(identifier string) (pokedex Pokedex, err error) {
 	url := endpoint + "/pokedex/" + identifier
 	if err = endpointRequest(url, &pokedex); err != nil {
 		return Pokedex{}, err
 	}
 	return pokedex, nil
 }
-func getPokemon(identifier string) (pokemon Pokemon, err error) {
+func GetPokemon(identifier string) (pokemon Pokemon, err error) {
 	url := endpoint + "/pokemon/" + identifier
 	if err = endpointRequest(url, &pokemon); err != nil {
 		return Pokemon{}, err
@@ -165,7 +165,7 @@ func getPokemon(identifier string) (pokemon Pokemon, err error) {
 	return pokemon, nil
 }
 
-func getGame(identifier string) (game Game, err error) {
+func GetGame(identifier string) (game Game, err error) {
 	url := endpoint + "/game/" + identifier
 	if err = endpointRequest(url, &game); err != nil {
 		return Game{}, err
@@ -173,7 +173,7 @@ func getGame(identifier string) (game Game, err error) {
 	return game, nil
 }
 
-func getType(identifier string) (type_ Type, err error) {
+func GetType(identifier string) (type_ Type, err error) {
 	url := endpoint + "/type/" + identifier
 	if err = endpointRequest(url, &type_); err != nil {
 		return Type{}, err
@@ -181,7 +181,7 @@ func getType(identifier string) (type_ Type, err error) {
 	return type_, nil
 }
 
-func getMove(identifier string) (move Move, err error) {
+func GetMove(identifier string) (move Move, err error) {
 	url := endpoint + "/move/" + identifier
 	if err = endpointRequest(url, &move); err != nil {
 		return Move{}, err
@@ -189,7 +189,7 @@ func getMove(identifier string) (move Move, err error) {
 	return move, nil
 }
 
-func getAbility(identifier string) (ability Ability, err error) {
+func GetAbility(identifier string) (ability Ability, err error) {
 	url := endpoint + "/ability/" + identifier
 	if err = endpointRequest(url, &ability); err != nil {
 		return Ability{}, err
@@ -197,7 +197,7 @@ func getAbility(identifier string) (ability Ability, err error) {
 	return ability, nil
 }
 
-func getEggGroup(identifier string) (eggGroup EggGroup, err error) {
+func GetEggGroup(identifier string) (eggGroup EggGroup, err error) {
 	url := endpoint + "/egg/" + identifier
 	if err = endpointRequest(url, &eggGroup); err != nil {
 		return EggGroup{}, err
@@ -205,7 +205,7 @@ func getEggGroup(identifier string) (eggGroup EggGroup, err error) {
 	return eggGroup, nil
 }
 
-func getDescription(identifier string) (description Description, err error) {
+func GetDescription(identifier string) (description Description, err error) {
 	url := endpoint + "/description/" + identifier
 	if err = endpointRequest(url, &description); err != nil {
 		return Description{}, err
@@ -213,7 +213,7 @@ func getDescription(identifier string) (description Description, err error) {
 	return description, nil
 }
 
-func getSprite(identifier string) (sprite Sprite, err error) {
+func GetSprite(identifier string) (sprite Sprite, err error) {
 	url := endpoint + "/sprite/" + identifier
 	if err = endpointRequest(url, &sprite); err != nil {
 		return Sprite{}, err
