@@ -1,8 +1,7 @@
-package main
+package pokemon
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -100,13 +99,6 @@ type Pokedex struct {
 	Pokemon      []Pokemon `json:"pokemon"`
 }
 
-func main() {
-	_, err := getPokedex("1")
-	if err != nil {
-		fmt.Println(err)
-	}
-}
-
 // This function gets the JSON from the API and populates the value field
 // which is passed by reference to it
 func endpointRequest(url string, value interface{}) error {
@@ -124,7 +116,6 @@ func getPokedex(identifier string) (pokedex Pokedex, err error) {
 	if err = endpointRequest(url, &pokedex); err != nil {
 		return Pokedex{}, err
 	}
-	fmt.Println(pokedex.Name, pokedex.Resource_uri)
 	return pokedex, nil
 }
 func getPokemon(identifier string) (pokemon Pokemon, err error) {
@@ -132,7 +123,6 @@ func getPokemon(identifier string) (pokemon Pokemon, err error) {
 	if err = endpointRequest(url, &pokemon); err != nil {
 		return Pokemon{}, err
 	}
-	fmt.Println(pokemon.Name, pokemon.Species)
 	return pokemon, nil
 }
 
@@ -141,6 +131,5 @@ func getGame(identifier string) (game Game, err error) {
 	if err = endpointRequest(url, &game); err != nil {
 		return Game{}, err
 	}
-	fmt.Println(game.Name, ":", game.Generation)
 	return game, nil
 }
