@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-  "strconv"
+//  "io/ioutil"
+//  "strconv"
 )
 
 const (
@@ -74,7 +74,7 @@ type Pokemon struct {
 	Moves             []Move        `json:"moves"`
 	Types             []Type        `json:"types"`
 	Catch_rate        int           `json:"catch_rate"`
-	Species           string        `json:"specied"`
+	Species           string        `json:"species"`
 	Hp                int           `json:"hp"`
 	Attack            int           `json:"attack"`
 	Defense           int           `json:"defense"`
@@ -91,7 +91,7 @@ type Pokemon struct {
 	Pkdx_id           int           `json:"pkdx_id"`
 	Sprites           []Sprite      `json:"sprites"`
 	Total             int           `json:"total"`
-	Weight            int           `json:"weight"`
+	Weight            string           `json:"weight"`
 }
 
 type Pokedex struct {
@@ -102,56 +102,42 @@ type Pokedex struct {
 	Pokemon      []Pokemon `json:"pokemon"`
 }
 
-func perror(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func get_(resource_id string, val_1 string, val_2 int ) interface{} {
-  url := endpoint + "/" + resource_id + "/"
-  if (val_1 == "NULL") {
-    url = url + strconv.Itoa(val_2)
-  } else {
-    url = url + val_1
-  }
-  fmt.Println(url)
-  res, err := http.Get(url)
-  perror(err)
-  defer res.Body.Close()
-  body, err := ioutil.ReadAll(res.Body)
-  switch resource_id {
-    case "pokemon": {var resource Pokemon; json.Unmarshal(body, &resource); return resource;}
-    case "move": {var resource Move; json.Unmarshal(body, &resource); return resource;}
-    case "pokedex": {var resource Pokedex; json.Unmarshal(body, &resource); return resource;}
-    case "type" : {var resource Type; json.Unmarshal(body, &resource); return resource;}
-    case "ability" : {var resource Ability; json.Unmarshal(body,&resource); return resource;}
-    case "egg" : {var resource EggGroup; json.Unmarshal(body, &resource); return resource;}
-    case "description" : {var resource Description; json.Unmarshal(body,&resource); return resource;}
-    case "sprite" : {var resource Sprite; json.Unmarshal(body, &resource); return resource;}
-    case "game" : {var resource Game; json.Unmarshal(body, &resource); return resource;}
-  }
-  //json.Unmarshal(body, &resource)
-  //fmt.Println("%v\n",resource)
-return 
-}
-
-func get_content() {
-	url := endpoint + "/pokemon/1"
-	res, err := http.Get(url)
-	perror(err)
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	perror(err)
-	var pokemon Pokemon
-	json.Unmarshal(body, &pokemon)
-	fmt.Printf("Results: %v\n", pokemon)
-}
-
 func main() {
-	get_1("pokemon", 2)
+  _, err := getPokemon("bulbasaur")
+  if err != nil {
+    fmt.Println(err)
+  }
 }
 
-func get(resource_id string, value int) interface{} {
-  return get_(resource_id, "NULL", value)
+
+func getPokemon(identifier string) (Pokemon, error) {
+  url := endpoint + "/pokemon/" + identifier
+  res, err := http.Get(url)
+  if err != nil {
+    return Pokemon{}, err
+  }
+  defer res.Body.Close()
+  decoder := json.NewDecoder(res.Body)
+  var pokemon Pokemon
+  if err := decoder.Decode(&pokemon); err != nil {
+    return Pokemon{}, err
+  }
+  fmt.Println(pokemon.Name, pokemon.Species)
+  return pokemon, nil
+}
+
+func getGame(identifier string) (Game, error) {
+  url := endpoint + "/game/" + identifier
+  res, err := http.Get(url)
+  if err != nil {
+    return Game{}, err
+  }
+  defer res.Body.Close()
+  decoder := json.NewDecoder(res.Body)
+  var game Game
+  if err := decoder.Decode(&game); err != nil {
+    return Game{}, err
+  }
+  fmt.Println(game.Name,":",game.Generation)
+  return game, nil
 }
